@@ -1,0 +1,48 @@
+/* CalendarPage.css */
+
+.calendar-container {
+  display: flex;
+  justify-content: center; /* Center the calendar horizontally */
+  width: 100%;
+  padding: 0; /* Remove any padding that might increase the space */
+  box-sizing: border-box;
+}
+
+.react-calendar {
+  width: 80%; /* Set the width to 80% of the container */
+  height: 30%; /* Maintain aspect ratio */
+}
+
+.react-calendar__tile {
+  max-width: none; /* Ensure tiles use available space */
+  padding: 5px; /* Adjust padding if needed for smaller tiles */
+}
+
+/* Highlight the Sunday and Saturday of the current week */
+.react-calendar__tile--highlighted {
+  color: red !important; /* Highlight the text in red */
+  background-color: white !important; /* Ensure the background is white */
+}
+
+/* Hover effect for highlighted days */
+.react-calendar__tile--highlighted:hover {
+  background-color: gray !important; /* Change background to gray on hover */
+  color: white !important; /* Change text color to white on hover */
+}
+
+/* Active state for highlighted days */
+.react-calendar__tile--highlighted-active {
+  background-color: red !important; /* Active background for Sundays and Saturdays */
+  color: white !important; /* Text is white */
+}
+
+/* Default styles for other days */
+.react-calendar__tile--default {
+  background-color: white;
+  color: black;
+}
+
+/* Hover effect for non-highlighted days */
+.react-calendar__tile--hover {
+  background-color: #e0f7fa; 
+}
