@@ -9,7 +9,6 @@ const AddTaskButton: React.FC<{ addTask: (task: any) => void }> = ({ addTask }) 
   const handleClose = () => setOpen(false);
 
   const handleAddTask = (task: any) => {
-    console.log('Adding task:', task); // Debugging log
     addTask(task);
     handleClose();
   };

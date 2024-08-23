@@ -1,41 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { Box } from '@mui/material';
 import { startOfWeek, endOfWeek, setHours, setMinutes, setSeconds } from 'date-fns';
-import './CalendarPage.css'; // Import custom CSS for styling
+import './CalendarPage.css';
 
 interface CalendarPageProps {
   setDateRange: (range: { start: Date; end: Date }) => void;
   setSelectedDate: (date: Date) => void;
+  selectedDate: Date;
 }
 
-const CalendarPage: React.FC<CalendarPageProps> = ({ setDateRange, setSelectedDate }) => {
-  const [currentDate, setCurrentDate] = useState<Date>(new Date());
-
+const CalendarPage: React.FC<CalendarPageProps> = ({ setDateRange, setSelectedDate, selectedDate }) => {
   useEffect(() => {
-    // When the component mounts, set the initial date range for the current week
-    const start = setSeconds(setMinutes(setHours(startOfWeek(currentDate, { weekStartsOn: 0 }), 0), 0), 0);
-    const end = setSeconds(setMinutes(setHours(endOfWeek(currentDate, { weekStartsOn: 0 }), 23), 59), 59);
+    const start = setSeconds(setMinutes(setHours(startOfWeek(selectedDate, { weekStartsOn: 0 }), 0), 0), 0);
+    const end = setSeconds(setMinutes(setHours(endOfWeek(selectedDate, { weekStartsOn: 0 }), 23), 59), 59);
     const adjustedEnd = new Date(end);
-    adjustedEnd.setDate(end.getDate() - 1); // Adjust to end of Saturday
+    adjustedEnd.setDate(end.getDate() - 1);
 
     setDateRange({ start, end: adjustedEnd });
-  }, [currentDate, setDateRange]);
+  }, [selectedDate, setDateRange]);
 
   const handleDateClick = (date: Date) => {
-    // Calculate the start of the week (Sunday) at midnight
     const start = setSeconds(setMinutes(setHours(startOfWeek(date, { weekStartsOn: 0 }), 0), 0), 0);
-    
-    // Calculate the end of the week (Saturday) at 23:59:59
     const end = setSeconds(setMinutes(setHours(endOfWeek(date, { weekStartsOn: 0 }), 23), 59), 59);
     const adjustedEnd = new Date(end);
-    adjustedEnd.setDate(end.getDate() - 1); // Adjust to end of Saturday
+    adjustedEnd.setDate(end.getDate() - 1);
 
-    // Update the selected date
     setSelectedDate(date);
 
-    // Update the selected date range to cover the entire week of the clicked date
     setDateRange({ start, end: adjustedEnd });
   };
 
@@ -43,7 +36,8 @@ const CalendarPage: React.FC<CalendarPageProps> = ({ setDateRange, setSelectedDa
     <Box sx={{ maxWidth: '90%', margin: 'auto' }}>
       <Box className="calendar-container">
         <Calendar
-          onClickDay={handleDateClick} // Set the date range and selected date when a day is clicked
+          onClickDay={handleDateClick}
+          value={selectedDate}
           locale="en-US"
         />
       </Box>

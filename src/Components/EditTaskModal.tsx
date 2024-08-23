@@ -1,5 +1,3 @@
-// EditTaskModal.tsx
-
 import React, { useState, useEffect } from 'react';
 import { Modal, Box, TextField, Button, Typography } from '@mui/material';
 
@@ -44,7 +42,6 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === 'status') {
-      // Allow the status to be empty or a number between 0 and 100
       const statusValue = value === '' ? '' : Math.min(Math.max(Number(value), 0), 100);
       setUpdatedTask({ ...updatedTask, [name]: statusValue as number });
     } else {
@@ -54,7 +51,7 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
 
   const handleSubmit = () => {
     if (updatedTask.status === '') {
-      setUpdatedTask({ ...updatedTask, status: 0 }); // Default to 0 if empty
+      setUpdatedTask({ ...updatedTask, status: 0 });
     }
     editTask(updatedTask);
     handleClose();

@@ -1,5 +1,3 @@
-// TaskTable.tsx
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
@@ -11,6 +9,7 @@ import {
   TableRow,
   Paper,
 } from '@mui/material';
+import frontendConfig from '../../frontendConfig.ts';
 
 interface Task {
   id: number;
@@ -25,9 +24,9 @@ interface TaskTableProps {
     start: Date;
     end: Date;
   };
-  onTaskUpdate: () => void; // Callback to notify task updates
-  onTaskSelect: (task: Task) => void; // Callback for handling task selection
-  selectedTaskId: number | null; // ID of the selected task
+  onTaskUpdate: () => void;
+  onTaskSelect: (task: Task) => void; 
+  selectedTaskId: number | null;
 }
 
 const TaskTable: React.FC<TaskTableProps> = ({
@@ -47,7 +46,7 @@ const TaskTable: React.FC<TaskTableProps> = ({
     const end = range.end.toISOString().split('T')[0];
     try {
       const response = await axios.get(
-        `http://127.0.0.1:5000/tasks-by-week?start=${start}&end=${end}`
+        `${frontendConfig.apiBaseUrl}/tasks-by-week?start=${start}&end=${end}`
       );
       setTasks(response.data);
     } catch (error) {
@@ -56,42 +55,74 @@ const TaskTable: React.FC<TaskTableProps> = ({
   };
 
   const handleRowClick = (task: Task) => {
-    onTaskSelect(task); // Notify parent component of the selected task
+    onTaskSelect(task);
   };
 
   return (
     <TableContainer
       component={Paper}
-      sx={{ maxWidth: '90%', margin: 'auto', boxShadow: 3 }}
+      sx={{
+        maxWidth: '90%',
+        margin: 'auto',
+        boxShadow: 3,
+        borderRadius: 2,
+        overflowX: 'auto',
+      }}
     >
-      <Table>
+      <Table stickyHeader>
         <TableHead>
           <TableRow>
-            <TableCell align="center">Task Name</TableCell>
-            <TableCell align="center">Category</TableCell>
-            <TableCell align="center">Status</TableCell>
-            <TableCell align="center">Created At</TableCell>
+            <TableCell align="center" sx={{ fontWeight: 'bold' }}>
+              Task Name
+            </TableCell>
+            <TableCell align="center" sx={{ fontWeight: 'bold' }}>
+              Category
+            </TableCell>
+            <TableCell align="center" sx={{ fontWeight: 'bold' }}>
+              Status
+            </TableCell>
+            <TableCell align="center" sx={{ fontWeight: 'bold' }}>
+              Created At
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {tasks.map((task) => (
-            <TableRow
-              key={task.id}
-              onClick={() => handleRowClick(task)}
-              selected={selectedTaskId === task.id} // Highlight the selected row
-              sx={{
-                cursor: 'pointer',
-                backgroundColor: selectedTaskId === task.id ? '#f0f8ff' : 'inherit', // Change row background on selection
-              }}
-            >
-              <TableCell align="center">{task.name}</TableCell>
-              <TableCell align="center">{task.category}</TableCell>
-              <TableCell align="center">{task.status}%</TableCell>
-              <TableCell align="center">
-                {new Date(task.created_at).toLocaleDateString()}
+          {tasks.length > 0 ? (
+            tasks.map((task) => (
+              <TableRow
+                key={task.id}
+                onClick={() => handleRowClick(task)}
+                selected={selectedTaskId === task.id}
+                sx={{
+                  cursor: 'pointer',
+                  backgroundColor:
+                    selectedTaskId === task.id ? '#e0f7fa' : 'inherit',
+                  '&:hover': {
+                    backgroundColor: '#f5f5f5',
+                  },
+                }}
+              >
+                <TableCell align="center" sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {task.name}
+                </TableCell>
+                <TableCell align="center" sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {task.category}
+                </TableCell>
+                <TableCell align="center">
+                  {task.status}%
+                </TableCell>
+                <TableCell align="center">
+                  {new Date(task.created_at).toLocaleDateString()}
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={4} align="center">
+                No tasks available for this week.
               </TableCell>
             </TableRow>
-          ))}
+          )}
         </TableBody>
       </Table>
     </TableContainer>

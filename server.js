@@ -1,21 +1,13 @@
-// server.js
-
-import express from 'express';  // Use import instead of require
-import mysql from 'mysql2/promise';  // Use import instead of require
-import cors from 'cors';  // Use import instead of require
+import express from 'express';
+import mysql from 'mysql2/promise';
+import cors from 'cors';
+import config from './config.js'; 
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// MySQL database connection
-const db = mysql.createPool({
-  host: '127.0.0.1',
-  user: 'root',
-  password: 'test123',
-  database: 'habitbuilder',
-  port: 3306,
-});
+const db = mysql.createPool(config.db);
 
 // Endpoint to fetch tasks by week
 app.get('/tasks-by-week', async (req, res) => {
@@ -35,7 +27,6 @@ app.get('/tasks-by-week', async (req, res) => {
 
 // Endpoint to add a new task
 app.post('/tasks', async (req, res) => {
-  console.log('POST /tasks called');
   const { name, category, status, created_at } = req.body;
   const query = 'INSERT INTO tasks (name, category, status, created_at) VALUES (?, ?, ?, ?)';
   

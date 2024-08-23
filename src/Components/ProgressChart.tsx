@@ -1,8 +1,7 @@
-// ProgressChart.tsx
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import frontendConfig from '../../frontendConfig.ts';
 
 interface ProgressData {
   category: string;
@@ -14,7 +13,7 @@ interface ProgressChartProps {
     start: Date;
     end: Date;
   };
-  taskUpdated: boolean; // Prop to trigger data re-fetch
+  taskUpdated: boolean;
 }
 
 const ProgressChart: React.FC<ProgressChartProps> = ({ dateRange, taskUpdated }) => {
@@ -22,7 +21,7 @@ const ProgressChart: React.FC<ProgressChartProps> = ({ dateRange, taskUpdated })
 
   useEffect(() => {
     fetchData(dateRange);
-  }, [dateRange, taskUpdated]); // Re-fetch data whenever dateRange or taskUpdated changes
+  }, [dateRange, taskUpdated]);
 
   const fetchData = async (range: { start: Date; end: Date }) => {
     const start = range.start.toISOString().split('T')[0];
@@ -30,7 +29,7 @@ const ProgressChart: React.FC<ProgressChartProps> = ({ dateRange, taskUpdated })
 
     try {
       const response = await axios.get(
-        `http://127.0.0.1:5000/average-status?start=${start}&end=${end}`
+        `${frontendConfig.apiBaseUrl}/average-status?start=${start}&end=${end}`
       );
       setData(response.data);
     } catch (error) {
