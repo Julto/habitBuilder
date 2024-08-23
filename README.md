@@ -14,4 +14,6 @@ You can change the backend through "config.js", and you can change which backend
 
 ![image](https://github.com/user-attachments/assets/7e994bc4-db7c-40f7-a387-9110d10f57f1)
 
+This is an image of the columns in my table and the table name.
+
 
