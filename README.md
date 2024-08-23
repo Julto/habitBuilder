@@ -1,30 +1,17 @@
-# React + TypeScript + Vite
+How to install:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Install NodeJs: https://nodejs.org/en/download/package-manager
 
-Currently, two official plugins are available:
+Clone this repository through git clone
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+cd into the new folder created, and run npm install to install packages
 
-## Expanding the ESLint configuration
+Run "npm run dev", which should give you a link to the local webpage
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+In another terminal, run "node server.js" to start the backend
 
-- Configure the top-level `parserOptions` property like this:
+You can change the backend through "config.js", and you can change which backend server you want to connect to through "frontendConfig.ts", which is set to '127.0.0.1', or localhost, right now.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+![image](https://github.com/user-attachments/assets/7e994bc4-db7c-40f7-a387-9110d10f57f1)
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+
